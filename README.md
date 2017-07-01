@@ -289,3 +289,7 @@ liqui.tradeHistory(params).then( result => {
 }
 */
 ```
+## Testing
+To run the tests, just do:
+
+`npm test`
