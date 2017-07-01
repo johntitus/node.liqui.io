@@ -6,6 +6,10 @@
   "scripts": {
     "test": "mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:johntitus/node.liqui.io.git"
+  },
   "author": "John Titus",
   "license": "MIT",
   "devDependencies": {
