@@ -1,5 +1,5 @@
 # node.liqui.io
-A unofficial Promise-based Node.js wrapper for the Liqui crypto-currency exchange.
+A unofficial Promise-based Node.js wrapper for the [Liqui](https://liqui.io/) crypto-currency exchange.
 
 ## Install
 Install via NPM:
