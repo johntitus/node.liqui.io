@@ -1,0 +1,11 @@
+{
+	"success": 1,
+	"return": {
+		"order_id": 343154,
+		"funds": {
+			"eth": 325,
+			"btc": 24.998,
+			"ltc": 0
+		}
+	}
+}

@@ -1,0 +1,17 @@
+{
+  "success": 1,
+  "return": {
+    "funds": {
+      "btc": 0.0000685404075907,
+      "adx": 0
+    },
+    "rights": {
+      "info": true,
+      "trade": true,
+      "withdraw": false
+    },
+    "transaction_count": 0,
+    "open_orders": 0,
+    "server_time": 1498925640
+  }
+}
