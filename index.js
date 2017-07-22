@@ -115,7 +115,7 @@ class Liqui {
 			return Promise.reject('Liqui depth requires a pair such as btc_usd');
 		} else {
 			var url = this.urlGet + 'depth/' + pair.toLowerCase();
-      url += limit ? `?limit=${limit}` : ''
+			url += limit ? `?limit=${limit}` : '';
 			return this._getHTTPS(url);
 		}
 	};
