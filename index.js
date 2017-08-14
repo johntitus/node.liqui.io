@@ -145,7 +145,7 @@ class Liqui {
 		}
 	};
 
-	sell(pair, rate, amount){
+	sell(params){
 		if (!params || !params.pair || !params.rate || !params.amount){
 			return Promise.reject('Pair, rate, and amount are required');
 		} else {
