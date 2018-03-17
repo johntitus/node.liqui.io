@@ -1,3 +1,5 @@
+'use strict';
+
 const should = require('should');
 const nock = require('nock');
 
@@ -19,10 +21,13 @@ const mockResponses = {
 	orderInfo: require('./mocks/orderInfo.mock'),
 	cancelOrder: require('./mocks/cancelOrder.mock'),
 	tradeHistory: require('./mocks/tradeHistory.mock')
-}
+};
 
 const FAUX_API_KEY = "imnotarealkey";
 const FAUX_API_SECRET = "imnotarealsecret";
+const JS_DATETIME_STRING_VALUE = '2018-01-01';
+const JS_DATETIME_VALUE = new Date(JS_DATETIME_STRING_VALUE);
+const LIQUI_TIMESTAMP_VALUE = (JS_DATETIME_VALUE.valueOf() / 1000).toString();
 
 describe('Liqui', function() {
 
@@ -247,6 +252,7 @@ describe('Liqui', function() {
 		});
 
 		describe('Trade History', function() {
+
 			it('should return trade history', function(done) {
 				nock(BASE_URL)
 					.post(TRADES_URL)
@@ -260,7 +266,70 @@ describe('Liqui', function() {
 						done();
 					});
 			});
-		});
+
+      it('should adjust "since" param string DateTime value to Liqui timestamp', function(done) {
+        nock(BASE_URL)
+          .post(TRADES_URL, body => {
+          	return body.since === LIQUI_TIMESTAMP_VALUE;
+					})
+          .reply(200, mockResponses.tradeHistory);
+
+        let liqui = new Liqui(FAUX_API_KEY, FAUX_API_SECRET);
+        liqui
+          .tradeHistory({since: JS_DATETIME_STRING_VALUE})
+          .then(data => {
+            data.should.be.json;
+            done();
+          });
+      });
+
+      it('should adjust "since" param Date value to Liqui timestamp', function(done) {
+        nock(BASE_URL)
+          .post(TRADES_URL, body => {
+            return body.since === LIQUI_TIMESTAMP_VALUE;
+          })
+          .reply(200, mockResponses.tradeHistory);
+
+        let liqui = new Liqui(FAUX_API_KEY, FAUX_API_SECRET);
+        liqui
+          .tradeHistory({ since: JS_DATETIME_VALUE})
+          .then(data => {
+            data.should.be.json;
+            done();
+          });
+      });
+    });
+
+    it('should adjust "since" param numeric Date (ms) value to Liqui timestamp', function(done) {
+      nock(BASE_URL)
+        .post(TRADES_URL,body => {
+          return body.since === LIQUI_TIMESTAMP_VALUE;
+        })
+        .reply(200, mockResponses.tradeHistory);
+
+      let liqui = new Liqui(FAUX_API_KEY, FAUX_API_SECRET);
+      liqui
+        .tradeHistory({ since: JS_DATETIME_VALUE.valueOf()})
+        .then(data => {
+          data.should.be.json;
+          done();
+        });
+    });
+    it('should not alter "since" param values in Liqui timestamp (secs) range', function(done) {
+      nock(BASE_URL)
+        .post(TRADES_URL, body => {
+          return body.since === '12345'
+        })
+        .reply(200, mockResponses.tradeHistory);
+
+      let liqui = new Liqui(FAUX_API_KEY, FAUX_API_SECRET);
+      liqui
+        .tradeHistory({ since: 12345 })
+        .then(data => {
+          data.should.be.json;
+          done();
+        });
+    });
 
 	});
 });

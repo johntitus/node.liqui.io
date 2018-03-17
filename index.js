@@ -24,7 +24,7 @@ class Liqui {
 			return Math.round(time.getTime() / 1000);
 		}
 		if (typeof time == 'string') {
-			return this.getTimestamp(new Date(time));
+			return this._getTimestamp(new Date(time));
 		}
 		if (typeof time == 'number') {
 			return (time >= 0x100000000) ? Math.round(time / 1000) : time;
@@ -52,10 +52,10 @@ class Liqui {
 			}
 
 			if (!!params && typeof(params) == 'object') {
-				Object.keys(params).forEach(function(key) {
+				Object.keys(params).forEach(key => {
 					let value;
 					if (key == 'since' || key == 'end') {
-						value = this.getTimestamp(params[key])
+						value = this._getTimestamp(params[key])
 					} else {
 						value = params[key]
 					}
